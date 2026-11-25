@@ -1,0 +1,4 @@
+# Codex reads this file; Claude Code uses disable-model-invocation in SKILL.md.
+# Both keep handoff to explicit calls, since it writes a file.
+policy:
+  allow_implicit_invocation: false
