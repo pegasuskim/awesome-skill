@@ -1,0 +1,12 @@
+{
+  "setup": [
+    ["pnpm", "install", "--offline", "--frozen-lockfile"]
+  ],
+  "tests": [
+    ["pnpm", "exec", "vitest", "run", "test/unit/scripts"]
+  ],
+  "groups": {
+    "deployment": [".github/workflows/**"],
+    "scripts-and-tests": ["scripts/**", "test/unit/scripts/**"]
+  }
+}
