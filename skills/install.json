@@ -2,5 +2,6 @@
   "handoff": ["claude", "codex"],
   "korean-technical-writing": ["claude", "codex"],
   "orch": ["claude", "codex"],
-  "readable-artifact": ["claude"]
+  "readable-artifact": ["claude"],
+  "scaffold": ["claude"]
 }
