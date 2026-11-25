@@ -1,0 +1,3 @@
+cask "ghostty"
+cask "font-meslo-for-powerlevel10k"     # font-family = "MesloLGS NF"
+cask "font-noto-sans-cjk-kr"            # font-codepoint-map 의 한글 범위

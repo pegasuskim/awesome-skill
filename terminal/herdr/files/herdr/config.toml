@@ -1,0 +1,144 @@
+onboarding = false
+
+[theme]
+name = "one-dark"
+
+auto_switch = false
+[keys]
+# prefix 를 ctrl+b -> ctrl+q 로. ctrl+b 는 zsh 의 backward-char 라 pane 에 돌려준다.
+# 주의: kitty 의 combine 매핑도 같은 키를 보내야 한다.
+prefix = "ctrl+q"
+
+# detach 는 기본값 prefix+q 대신 prefix+d (prefix 가 ctrl+q 라 q 가 겹쳐 헷갈림)
+detach = "prefix+d"
+
+# 각 액션마다 [prefix 방식, 직접 chord] 두 가지를 함께 등록.
+# kitty는 cmd+* 를 가로채서 아래 직접 chord로 변환해 보냄(send_key).
+# Ghostty 등 다른 터미널에서는 prefix+* 가 그대로 fallback.
+new_tab           = ["prefix+c", "ctrl+alt+c"]
+close_tab         = ["prefix+shift+x"]
+previous_tab      = ["prefix+p", "ctrl+alt+["]
+next_tab          = ["prefix+n", "ctrl+alt+]"]
+split_vertical    = ["prefix+v", "ctrl+alt+d"]
+split_horizontal  = ["prefix+minus", "ctrl+alt+shift+d"]
+close_pane        = ["prefix+x"]
+zoom              = ["prefix+z", "ctrl+alt+z"]
+focus_pane_left   = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down   = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up     = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right  = ["prefix+l", "ctrl+alt+l"]
+switch_tab        = ["prefix+1..9", "ctrl+alt+1..9"]
+
+# ── workspace(space) 층 — kitty의 option+* 가 여기로 중계됨 ──
+# 규칙: option 층 = ctrl+alt+shift+* chord
+workspace_picker   = ["prefix+w"]
+new_workspace      = ["prefix+shift+n", "ctrl+alt+shift+n"]
+close_workspace    = ["prefix+shift+d", "ctrl+alt+shift+w"]
+previous_workspace = ["prefix+[", "ctrl+alt+shift+b"]
+next_workspace     = ["prefix+]", "ctrl+alt+shift+f"]
+switch_workspace   = ["prefix+shift+1..9", "ctrl+alt+shift+1..9"]
+toggle_sidebar     = ["prefix+b", "ctrl+alt+b"]
+
+# pane 크기 조절 — cmd+shift+방향키. resize_mode(prefix+r)도 그대로 살아있다.
+resize_pane_left   = ["ctrl+alt+shift+left"]
+resize_pane_down   = ["ctrl+alt+shift+down"]
+resize_pane_up     = ["ctrl+alt+shift+up"]
+resize_pane_right  = ["ctrl+alt+shift+right"]
+rename_tab         = ["prefix+shift+t", "ctrl+alt+r"]
+rename_workspace   = ["prefix+shift+w", "ctrl+alt+shift+r"]
+
+# session navigator (space/pane 트리 탐색)
+goto               = ["prefix+g", "ctrl+alt+e"]
+
+# worktree — 삭제는 오발 방지를 위해 prefix 전용 (확인창 있음)
+new_worktree       = ["prefix+shift+g", "ctrl+alt+shift+o"]
+open_worktree      = ["prefix+shift+o", "ctrl+alt+o"]
+remove_worktree    = ["prefix+shift+u"]
+
+# ── pane 닫기 (실행 중이면 확인) ──
+# herdr 에 pane 닫기 확인 기능이 없어 popup 으로 구현. kitty 가 cmd+w 를 중계.
+[[keys.command]]
+key = "prefix+alt+x"
+type = "shell"
+command = "{{HOME}}/.config/herdr/herdr-close-pane.sh"
+
+# ── pane 위치 바꾸기 (현재 pane 을 이웃과 맞바꿈) ──
+# herdr 에 swap 액션이 없어 CLI 를 커스텀 명령으로 붙였다.
+# Ghostty 가 option+w/a/s/d 를 아래 chord 로 중계한다 (herdr-keys.conf).
+# focus_pane_* 가 ctrl+alt+hjkl 이므로 swap 은 여기에 shift 를 더한 층으로 맞췄다.
+# kitty 에는 대응 매핑이 없어 Ghostty 에서만 동작한다.
+[[keys.command]]
+key = "ctrl+alt+shift+k"
+type = "shell"
+command = "herdr pane swap --current --direction up"
+
+[[keys.command]]
+key = "ctrl+alt+shift+h"
+type = "shell"
+command = "herdr pane swap --current --direction left"
+
+[[keys.command]]
+key = "ctrl+alt+shift+j"
+type = "shell"
+command = "herdr pane swap --current --direction down"
+
+[[keys.command]]
+key = "ctrl+alt+shift+l"
+type = "shell"
+command = "herdr pane swap --current --direction right"
+
+[ui]
+agent_panel_sort = "priority"
+
+
+# 드래그 선택 시 자동 복사 끄기 (기본값 true)
+copy_on_select = false
+show_agent_labels_on_pane_borders = true
+
+# 새 탭 이름을 묻지 않고 자동 생성 이름을 붙인다.
+# 기본값 true 는 엔터만 치면 이름 없는 탭이 되어 사이드바의 tab 토큰이 빈다.
+prompt_new_tab_name = false
+
+# kitty 창 제목: space / 탭
+window_title = "{workspace} / {tab}"
+
+status_indicators = "symbols"
+
+# 토스트 알림 (기본값이 off 라 명시적으로 켬)
+# pane 닫기 확인이 이 토스트를 사용함
+[ui.toast]
+delivery = "herdr"
+delay_seconds = 1
+
+[ui.toast.herdr]
+position = "bottom-right"
+
+# space 항목 사이 빈 줄 (기본 0 = 붙어있음)
+# 배치는 기본값 그대로. 모든 토큰에 bold + dim=false.
+[ui.sidebar.spaces]
+row_gap = 1
+rows = [
+  [{ token = "state_icon", bold = true, dim = false }, { token = "workspace", bold = true, dim = false }],
+  [{ token = "branch", bold = true, dim = false }, { token = "git_status", bold = true, dim = false }],
+]
+
+# agent 행 구성. 기본값은 state_text 가 빠져 있어 상태가 점으로만 보인다.
+# 1행의 state_icon(점)은 그대로 두고 2행에 state_text(idle/working/...)를 추가.
+[ui.sidebar.agents]
+row_gap = 1
+rows = [
+  [{ token = "state_icon", bold = true, dim = false }, { token = "workspace", bold = true, dim = false }, { token = "tab", bold = true, dim = false }],
+  [{ token = "state_text", bold = true, dim = false }, { token = "agent", bold = true, dim = false }],
+]
+
+# prefix 모드 진입 시 ASCII 자판으로 자동 전환, 빠져나오면 원복.
+# 한글 입력 중에도 prefix 단축키가 먹는다. (macOS/Windows 전용, best-effort)
+[experimental]
+switch_ascii_input_source_in_prefix = true
+
+[ui.sound]
+enabled = true
+
+[session]
+resume_agents_on_restore = true
+

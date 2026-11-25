@@ -1,0 +1,2 @@
+brew "herdr"
+brew "jq"                               # herdr-close-pane.sh
