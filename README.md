@@ -1,4 +1,4 @@
-# awesome-config
+# awesome-skill
 
 ## Skills
 
