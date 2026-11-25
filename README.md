@@ -10,3 +10,4 @@
 | [korean-technical-writing](skills/korean-technical-writing/) | 한국어 기술 문서의 작성·검토 기준 |
 | [orch](skills/orch/) | Herdr pane에서 claude·codex 에이전트를 띄우고 프롬프트를 보내 최종 답만 받기 |
 | [readable-artifact](skills/readable-artifact/) | 다른 사람이 읽을 Claude Artifact 페이지 작성 가이드 |
+| [scaffold](skills/scaffold/) | 새 프로젝트의 아키텍처와 AI 작업 환경(CLAUDE.md·규칙·스킬·훅)을 인터뷰로 정해 `requirements.md`로 정리 |
